@@ -15,6 +15,7 @@ const initialState = {
       name: "Generic Product",
       tagName: "GenericProduct",
       price: 10.0,
+      stock: 5,
       numbers: 0,
       inCart: false,
     },
@@ -22,6 +23,7 @@ const initialState = {
       name: "Photo",
       tagName: "Photo",
       price: 5.0,
+      stock: 12,
       numbers: 0,
       inCart: false,
     },
@@ -29,6 +31,7 @@ const initialState = {
       name: "Large Photo",
       tagName: "LargePhoto",
       price: 12.0,
+      stock: 3,
       numbers: 0,
       inCart: false,
     },
@@ -37,17 +40,25 @@ const initialState = {
 
 export default (state = initialState, action) => {
   let productSelected = "";
+  let newCartCost = 0;
+  let newBasketNumbers = 0;
   switch (action.type) {
     case ADD_PRODUCT_BASKET:
       productSelected = { ...state.products[action.payload] };
-      productSelected.numbers += 1;
+      if (productSelected.numbers === productSelected.stock) {
+        productSelected.numbers = productSelected.stock;
+        newBasketNumbers = state.basketNumbers;
+      } else {
+        productSelected.numbers += 1;
+        newBasketNumbers = state.basketNumbers + 1;
+      }
       productSelected.inCart = true;
       console.log(productSelected);
 
       return {
         ...state,
-        basketNumbers: state.basketNumbers + 1,
-        cartCost: state.cartCost + state.products[action.payload].price,
+        basketNumbers: newBasketNumbers,
+        cartCost: newCartCost,
         products: {
           ...state.products,
           [action.payload]: productSelected,
@@ -57,11 +68,21 @@ export default (state = initialState, action) => {
       return { ...state };
     case INCREASE_QUANTITY:
       productSelected = { ...state.products[action.payload] };
-      productSelected.numbers += 1;
+      newCartCost = 0;
+      newBasketNumbers = 0;
+      if (productSelected.numbers === productSelected.stock) {
+        productSelected.numbers = productSelected.stock;
+        newCartCost = state.cartCost;
+        newBasketNumbers = state.basketNumbers;
+      } else {
+        productSelected.numbers += 1;
+        newCartCost = state.cartCost + state.products[action.payload].price;
+        newBasketNumbers = state.basketNumbers + 1;
+      }
       return {
         ...state,
-        basketNumbers: state.basketNumbers + 1,
-        cartCost: state.cartCost + state.products[action.payload].price,
+        basketNumbers: newBasketNumbers,
+        cartCost: newCartCost,
         products: {
           ...state.products,
           [action.payload]: productSelected,
@@ -69,8 +90,8 @@ export default (state = initialState, action) => {
       };
     case DECREASE_QUANTITY:
       productSelected = { ...state.products[action.payload] };
-      let newCartCost = 0;
-      let newBasketNumbers = 0;
+      newCartCost = 0;
+      newBasketNumbers = 0;
       if (productSelected.numbers === 0) {
         productSelected.numbers = 0;
         newCartCost = state.cartCost;
