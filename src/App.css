@@ -46,10 +46,14 @@ nav {
 .grid-container > div {
   background-color: white;
   text-align: center;
-  width: 200px;
+  width: 250px;
   border-color: lightgray;
   border-style: solid;
   border-radius: 15px;
+}
+
+.itemTitle {
+  text-decoration-line: underline;
 }
 
 .container-products {

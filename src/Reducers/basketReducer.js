@@ -25,6 +25,13 @@ const initialState = {
       numbers: 0,
       inCart: false,
     },
+    LargePhoto: {
+      name: "Large Photo",
+      tagName: "LargePhoto",
+      price: 12.0,
+      numbers: 0,
+      inCart: false,
+    },
   },
 };
 

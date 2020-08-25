@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import LoggedOutBuyButton from "../Buttons/LoggedOutBuyButton";
-import BuyButton from "../Buttons/BuyButton";
-function Home({ match }, props) {
+import { useAuth0 } from "@auth0/auth0-react";
+import { addBasket } from "../../Actions/addAction";
+import { connect } from "react-redux";
+
+function Home(props) {
   const [items, setItems] = useState([]);
+  const { isAuthenticated } = useAuth0();
+
   useEffect(() => {
     fetchItems();
   }, []);
@@ -14,17 +19,36 @@ function Home({ match }, props) {
     setItems(items);
   };
 
+  const buyButton = (
+    //How to pass map items to this?
+    <button
+      onClick={() => props.addBasket("Photo")}
+      class="btn btn-primary m-2"
+    >
+      Buy
+    </button>
+  );
+
+  const renderButton = isAuthenticated ? buyButton : <LoggedOutBuyButton />;
+
   return (
     <div>
       <h1>Home Page</h1>
       <div className="grid-container">
         {items.map((item) => (
           <div className="wrapper">
-            <h5 key={item.id}>{item.itemName}</h5> <br />
+            <h4 className="itemTitle" key={item.id}>
+              {item.itemName}
+            </h4>
+            <img src="https://picsum.photos/200/150" />
             <h5>Price: £{item.price} </h5>
-            <LoggedOutBuyButton />
-            <BuyButton id={item} />
-            {console.log(item.itemName)}
+            {renderButton}
+            <button
+              onClick={() => props.addBasket(item.tagName)}
+              class="btn btn-primary m-2"
+            >
+              Buy
+            </button>
           </div>
         ))}
       </div>
@@ -32,4 +56,4 @@ function Home({ match }, props) {
   );
 }
 
-export default Home;
+export default connect(null, { addBasket })(Home);
