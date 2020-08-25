@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import LoggedOutBuyButton from "../Buttons/LoggedOutBuyButton";
 import BuyButton from "../Buttons/BuyButton";
 function Home({ match }, props) {
+  const [items, setItems] = useState([]);
   useEffect(() => {
     fetchItems();
   }, []);
-
-  const [items, setItems] = useState([]);
 
   const fetchItems = async () => {
     const data = await fetch(`https://localhost:44321/api/inventoryitems`);
@@ -24,7 +23,8 @@ function Home({ match }, props) {
             <h5 key={item.id}>{item.itemName}</h5> <br />
             <h5>Price: £{item.price} </h5>
             <LoggedOutBuyButton />
-            <BuyButton id={item.itemName} />
+            <BuyButton id={item} />
+            {console.log(item.itemName)}
           </div>
         ))}
       </div>

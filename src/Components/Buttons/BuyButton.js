@@ -5,7 +5,6 @@ import { addBasket } from "../../Actions/addAction";
 
 const BuyButton = (props, id) => {
   const { isAuthenticated } = useAuth0();
-  console.log(id);
   return (
     isAuthenticated && (
       <div>
