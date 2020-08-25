@@ -3,7 +3,7 @@ import LoggedOutBuyButton from "../Buttons/LoggedOutBuyButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import { addBasket } from "../../Actions/addAction";
 import { connect } from "react-redux";
-
+//Home page for the website, will display all products currently in shop inventory from API
 function Home(props) {
   const [items, setItems] = useState([]);
   const { isAuthenticated } = useAuth0();

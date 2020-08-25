@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { connect } from "react-redux";
 import { getNumbers } from "../../Actions/getAction";
 
+//Logged in navbar which specifically shows the cart route on the navbar
 function NavbarLoggedIn(props) {
   const { isAuthenticated } = useAuth0();
 

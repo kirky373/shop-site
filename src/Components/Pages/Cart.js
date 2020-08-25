@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { productQuantity, clearProduct } from "../../Actions/productQuantity";
 
+//Shopping cart page, displays the cart contents as well as being able to edit it
 function Cart({ basketProps, productQuantity, clearProduct }) {
   let productsInCart = [];
 

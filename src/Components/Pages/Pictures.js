@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../../App.css";
 import { Link } from "react-router-dom";
 import BuyAllButton from "../Buttons/BuyAllButton";
-
+//Picture page, gets 30 images from a picsum list call and prints the authors on screen
+//The author then links to a page of the actual picture
 function Pictures() {
   useEffect(() => {
     fetchItems();

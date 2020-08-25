@@ -3,6 +3,7 @@ import "../../App.css";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
+//Logged out navbar which lacks the cart route
 function NavbarLoggedOut() {
   const { isAuthenticated } = useAuth0();
   return (
