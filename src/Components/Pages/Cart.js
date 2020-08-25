@@ -1,22 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { productQuantity, clearProduct } from "../../Actions/productQuantity";
 
 function Cart({ basketProps, productQuantity, clearProduct }) {
-  useEffect(() => {
-    fetchCart();
-  }, []);
-
-  const [cart, setCart] = useState([]);
-
-  const fetchCart = async () => {
-    const data = await fetch(`https://localhost:44321/api/cart`);
-    const cart = await data.json();
-    console.log(cart);
-    setCart(cart);
-  };
-  //console.log(basketProps);
-
   let productsInCart = [];
 
   Object.keys(basketProps.products).forEach(function (item) {
@@ -25,37 +11,35 @@ function Cart({ basketProps, productQuantity, clearProduct }) {
     if (basketProps.products[item].inCart) {
       productsInCart.push(basketProps.products[item]);
     }
-    //console.log(productsInCart);
+    console.log(productsInCart);
   });
 
-  console.log(cart.itemName);
-
-  productsInCart = cart.map((cart, index) => {
+  productsInCart = productsInCart.map((product, index) => {
     return (
       <Fragment key={index}>
         <div className="product">
           <ion-icon
-            onClick={() => clearProduct(cart.itemName)}
+            onClick={() => clearProduct(product.tagName)}
             name="close-circle"
           ></ion-icon>
           <img src="https://picsum.photos/300/200" />
-          <span className="sm-hide">{cart.itemName}</span>
+          <span className="sm-hide">{product.name}</span>
         </div>
-        <div className="price sm-hide">£{cart.price}.00</div>
+        <div className="price sm-hide">£{product.price}.00</div>
         <div className="quantity">
           <ion-icon
-            onClick={() => productQuantity("decrease", cart.itemName)}
+            onClick={() => productQuantity("decrease", product.tagName)}
             className="decrease"
             name="arrow-back-circle-outline"
           ></ion-icon>
-          <span>{cart.quantity}</span>
+          <span>{product.numbers}</span>
           <ion-icon
-            onClick={() => productQuantity("increase", cart.itemName)}
+            onClick={() => productQuantity("increase", product.tagName)}
             className="increase"
             name="arrow-forward-circle-outline"
           ></ion-icon>
         </div>
-        <div className="total">£{cart.quantity * cart.price}.00</div>
+        <div className="total">£{product.numbers * product.price}.00</div>
       </Fragment>
     );
   });
